@@ -37,9 +37,7 @@ AppAsset::register($this);
     ]);
 
     $menuItems = [
-        ['label' => 'Главная страница', 'url' => ['/site/index']],
-        ['label' => 'О нас', 'url' => ['/site/about']],
-        ['label' => 'Контакты', 'url' => ['/site/contact']],
+		['label' => 'Главная страница', 'url' => ['/site/index']],
     ];
 
     if(Yii::$app->user->isGuest)
@@ -49,6 +47,14 @@ AppAsset::register($this);
     }
     else
     {
+		if(Yii::$app->user->identity->username != 'admin')
+		{
+			$menuItems[] = ['label' => 'Список олимпиад', 'url' => ['/olympiad/olympiads']];
+			$menuItems[] = ['label' => 'Личный кабинет', 'url' => ['/personal-data/personal-area']];
+		}
+		else{
+			$menuItems[] = ['label' => 'Список олимпиад', 'url' => ['/admin/olympiads']];
+		}
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(

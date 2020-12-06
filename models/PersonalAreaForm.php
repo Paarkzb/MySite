@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use Yii;
 use yii\base\Model;
 use app\models\PersonalData;
 
@@ -18,19 +19,20 @@ class PersonalAreaForm extends Model
 	public function rules()
 	{
 		return [
+			[['family', 'name', 'patronymic'], 'trim'],
 			[['family', 'name', 'patronymic', 'address_id', 'school_id', 'class', 'telephone'], 'required'],
 			['telephone', 'string', 'min' => 18],
 		];
 	}
 
-	public function save($id)
+	public function save()
     {
         if(!$this->validate())
         {
             return null;
 		}
 		
-		$personalData = PersonalData::findOne(['user_id' => $id]);
+		$personalData = PersonalData::findOne(['user_id' => Yii::$app->user->identity->user_id]);
         $personalData->family = $this->family;
         $personalData->name = $this->name;
         $personalData->patronymic = $this->patronymic;

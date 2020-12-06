@@ -3,12 +3,13 @@
 
 namespace app\models;
 
-
+use Yii;
 use yii\base\Model;
 
 class OlympiadCreateForm extends Model
 {
-    public $subject;
+	public $subject;
+	public $description;
     public $date_start;
     public $date_end;
     public $classroom_id;
@@ -16,23 +17,41 @@ class OlympiadCreateForm extends Model
     public function rules()
     {
         return [
-            [['subject', 'date_start', 'date_end', 'classroom_id'], 'required'],
+			[['subject', 'date_start', 'date_end', 'classroom_id'], 'required', 'message' => 'Поле не может быть пустым'],
+			['description', 'default', 'value' => null],
         ];
     }
 
-    public function save()
+    public function save($id = 0)
     {
         if(!$this->validate())
         {
             return null;
         }
 
-        $olympiad = new Olympiad();
-        $olympiad->subject = $this->subject;
-        $olympiad->date_start = $this->date_start;
-        $olympiad->date_end = $this->date_end;
-        $olympiad->classroom_id = $this->classroom_id;
+        if($id == 0){
+			$model = new Olympiad();
+		}
+		else{
+			$model = Olympiad::findOne($id);
+			$query = "DELETE FROM olympiad_classroom WHERE olympiad_id = $id";
+			$STH = Yii::$app->db->createCommand($query)->execute();
+		}
 
-        return $olympiad->save();
+		$model->subject = $this->subject;
+		$model->description = $this->description;
+		$model->date_start = $this->date_start;
+		$model->date_end = $this->date_end;
+		$model->save();
+
+		$classroomsArray = $this->classroom_id;
+		foreach ($classroomsArray as $value) {
+			$olympiadClassroom = new OlympiadClassroom();
+			$olympiadClassroom->olympiad_id = $model->olympiad_id;
+			$olympiadClassroom->classroom_id = $value;
+			$olympiadClassroom->save();
+		}
+
+        return $model->save() ? $model : null;
     }
 }

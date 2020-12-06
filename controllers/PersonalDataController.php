@@ -11,13 +11,13 @@ use yii\web\Controller;
 class PersonalDataController extends Controller
 {
 
-	public function actionPersonalDataRegistration($id = 0)
+	public function actionPersonalDataRegistration()
 	{
 		$model = new PersonalAreaForm();
 
 		if ($model->load(Yii::$app->request->post())) 
 		{
-			if ($model->save($id)) 
+			if ($model->save()) 
 			{
 				return $this->goHome();
 			}
@@ -26,16 +26,10 @@ class PersonalDataController extends Controller
 		return $this->render('personal-data-registration', ['model' => $model]);
 	}
 
-	public function actionPersonalArea($id = 0)
+	public function actionPersonalArea()
 	{
-		if ($id !== 0) {
-			$model = PersonalData::findOne(['user_id' => $id]);
-			if (!is_object($model)) {
-				$model = new PersonalData();
-			}
-		}
-		else
-		{
+		$model = PersonalData::findOne(['user_id' => Yii::$app->user->identity->user_id]);
+		if (!is_object($model)) {
 			$model = new PersonalData();
 		}
 

@@ -54,7 +54,7 @@ echo $form->field($personalData, 'telephone')->label('Телефон')
 <input type="hidden" name="id" 
 	value="<?= $personalData->personal_data_id?>">
 
-<div class="form-group">
+<div class="form-group text-center">
 	<?= Html::submitButton('Изменить данные', ['class' => 'btn btn-success']); ?>
 </div>
 

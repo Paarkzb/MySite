@@ -11,8 +11,8 @@ if($error == 1)
 else
 {
 echo "
-	<a href='/index.php?r=user/users&status=$status' class='btn btn-success'>Вернуться</a>
-	<a href='/index.php?r=user/delete-user&id=$personalData->personal_data_id' class='btn btn-danger pull-right'>Удалить заявку</a>
+	<a href='/index.php?r=user/users' class='btn btn-success'>Вернуться</a>
+	<a href='/index.php?r=user/delete-user&id=$personalData->personal_data_id' class='btn btn-danger pull-right'>Удалить участника</a>
 	<h1 class='text-center'>Данные заявки №$personalData->personal_data_id</h1>
 ";
 
@@ -50,16 +50,10 @@ echo "
 			<td>Телефон</td>
 			<td>$personalData->telephone</td>
 		</tr>
-		<tr>
-			<td>Статус заявки</td>
-			<td>{$personalData->getStatus()}</td>
-		</tr>
 	</table>
 	<div class='container'>
 		<div class='text-center'>
-			<a href='/index?r=user/user-data-process&id=$personalData->personal_data_id&value=1&status=$status' class='btn btn-success'>Принять</a>
-			<a href='/index?r=user/user-data-process&id=$personalData->personal_data_id&value=2' class='btn btn-warning'>Изменить</a>
-			<a href='/index?r=user/user-data-process&id=$personalData->personal_data_id&value=3&status=$status' class='btn btn-danger'>Отклонить</a>
+			<a href='/index?r=user/user-data-process&id=$personalData->personal_data_id' class='btn btn-warning'>Изменить</a>
 		</div>
 	</div>
 ";

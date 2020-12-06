@@ -11,23 +11,11 @@ class PersonalData extends ActiveRecord
 	public function rules()
 	{
 		return [
+			[['family', 'name', 'patronymic'], 'trim'],
 			[['family', 'name', 'patronymic', 'address_id', 'school_id', 'class', 'telephone'], 'required'],
 			['telephone', 'string', 'min' => 18],
 		];
 	}
-
-	public function getStatus()
-    {
-        if($this->status == -1){
-            return "Не расмотрен";
-        }
-        else if($this->status == 0){
-            return "Отклонен";
-        }
-        else{
-            return "Принят";
-        }
-    }
 
     public function getEmail()
     {
