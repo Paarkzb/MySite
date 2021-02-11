@@ -39,7 +39,7 @@ class PersonalAreaForm extends Model
         $personalData->address_id = $this->address_id;
         $personalData->school_id = $this->school_id;
         $personalData->class = $this->class;
-        $personalData->telephone = $this->telephone;
+		$personalData->telephone = $this->telephone;
 
         return $personalData->save();
     }
